@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -73,6 +72,7 @@ const Register = () => {
           ? "/dashboard/agent"
           : "/dashboard/admin";
       navigate(dashboardRoute);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(
         error?.data?.message || "Registration failed. Please try again."
@@ -112,9 +112,6 @@ const Register = () => {
               <span className="text-xl font-bold text-foreground">Cashyo</span>
             </Link>
 
-            <Badge variant="secondary" className="mb-4">
-              Create Account
-            </Badge>
             <h1 className="text-3xl font-bold tracking-tight text-foreground">
               Join Cashyo
             </h1>
