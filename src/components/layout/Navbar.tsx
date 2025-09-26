@@ -33,6 +33,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { ThemeToggle } from "./ThemeToggler";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -188,7 +189,7 @@ export const Navbar = () => {
             )}
           </div>
 
-          {/* Auth Buttons / User Menu */}
+          {/* Theme Button + Auth Buttons / User Menu */}
           <div className="hidden md:flex md:items-center md:space-x-4">
             {!isAuthenticated ? (
               <>
@@ -249,21 +250,23 @@ export const Navbar = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             )}
+            <ThemeToggle />
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="md:hidden space-x-2">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-8 w-8" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-8 w-8" />
               )}
             </Button>
+            <ThemeToggle />
           </div>
         </div>
 

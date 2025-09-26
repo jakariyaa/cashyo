@@ -62,24 +62,24 @@ const Index = () => {
 
   const testimonials = [
     {
-      name: "Sarah Johnson",
+      name: "Diana Johnson",
       role: "Small Business Owner",
       content:
         "Cashyo has transformed how I handle my business transactions. Fast, secure, and reliable.",
       rating: 5,
     },
     {
-      name: "Mike Chen",
+      name: "Mike Rodriguez",
       role: "Freelancer",
       content:
         "The best digital wallet I've ever used. The agent network makes cash-in/out super convenient.",
       rating: 5,
     },
     {
-      name: "Priya Sharma",
+      name: "Abdul Kader",
       role: "Student",
       content:
-        "Perfect for managing my expenses. The analytics help me budget better.",
+        "Perfect for managing my expenses. The analytics help me budget better. This app is a game-changer!",
       rating: 5,
     },
   ];

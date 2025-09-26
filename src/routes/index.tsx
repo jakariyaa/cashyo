@@ -5,6 +5,7 @@ import About from "@/pages/About";
 import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 import Contact from "@/pages/Contact";
+import ProtectedDashboard from "@/pages/dashboard/ProtectedDashboard";
 import FAQ from "@/pages/FAQ";
 import Features from "@/pages/Features";
 import Index from "@/pages/Index";
@@ -51,7 +52,21 @@ export const router = createBrowserRouter([
     path: "/register",
   },
   {
+    Component: ProtectedDashboard,
+    path: "/dashboard/user",
+  },
+  {
+    Component: ProtectedDashboard,
+    path: "/dashboard/agent",
+  },
+  {
+    Component: ProtectedDashboard,
+    path: "/dashboard/admin",
+  },
+
+  // Catch-all route for 404 Not Found
+  {
     Component: NotFound,
-    path: "*", // catch-all
+    path: "*",
   },
 ]);
