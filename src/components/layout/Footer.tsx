@@ -125,7 +125,7 @@ export function Footer() {
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <div className="flex space-x-5 sm:space-x-6">
+            <div id="social-icons" className="flex space-x-5 sm:space-x-6">
               {navigation.social.map((item, index) => {
                 const Icon = item.icon;
                 return (

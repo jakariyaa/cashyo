@@ -52,7 +52,7 @@ export function Navbar() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <Link to="/" className="-m-1.5 p-1.5 flex items-center gap-2">
+          <Link id="home" to="/" className="-m-1.5 p-1.5 flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-600 text-white font-bold text-sm">
               <Wallet className="h-5 w-5" />
             </div>
@@ -78,6 +78,7 @@ export function Navbar() {
           {navigation.map((item) => (
             <Link
               key={item.name}
+              id={item.name.toLowerCase()}
               to={item.href}
               className={cn(
                 "text-sm font-medium leading-6 transition-colors hover:text-blue-600",
@@ -103,7 +104,9 @@ export function Navbar() {
         </div>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-3">
-          <ThemeToggle />
+          <div id="theme-toggler">
+            <ThemeToggle />
+          </div>
           {user ? (
             <Button
               variant="ghost"
@@ -118,6 +121,7 @@ export function Navbar() {
               <Button
                 variant="ghost"
                 size="sm"
+                id="login"
                 className="text-foreground/70 hover:text-foreground"
               >
                 <Link to="/login">Sign In</Link>

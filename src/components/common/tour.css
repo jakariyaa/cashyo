@@ -1,0 +1,60 @@
+
+:root {
+    --driver-popover-bg: #1e293b;
+    --driver-popover-border-color: #334155;
+    --driver-popover-title-color: #f1f5f9;
+    --driver-popover-description-color: #cbd5e1;
+    --driver-popover-arrow-color: #1e293b;
+    --driver-button-bg: #3b82f6;
+    --driver-button-hover-bg: #2563eb;
+    --driver-button-text-color: #ffffff;
+    --driver-button-secondary-bg: #475569;
+    --driver-button-secondary-hover-bg: #64748b;
+    --driver-button-secondary-text-color: #ffffff;
+  }
+  
+  .dark {
+    --driver-popover-bg: #f8fafc;
+    --driver-popover-border-color: #e2e8f0;
+    --driver-popover-title-color: #0f172a;
+    --driver-popover-description-color: #475569;
+    --driver-popover-arrow-color: #f8fafc;
+    --driver-button-bg: #3b82f6;
+    --driver-button-hover-bg: #2563eb;
+    --driver-button-text-color: #ffffff;
+    --driver-button-secondary-bg: #e2e8f0;
+    --driver-button-secondary-hover-bg: #cbd5e1;
+    --driver-button-secondary-text-color: #0f172a;
+  }
+  
+  .driver-popover {
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .driver-popover-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  
+  .driver-popover-description {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  
+  .driver-popover-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .driver-popover-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+  }
+  

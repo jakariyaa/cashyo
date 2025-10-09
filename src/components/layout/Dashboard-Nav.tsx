@@ -55,6 +55,9 @@ export function DashboardNav() {
                 <DropdownMenuItem asChild>
                   <Link to={dashboardPath()}>Dashboard</Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/dashboard/user/settings">Settings</Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogout}>
                   Logout
                 </DropdownMenuItem>

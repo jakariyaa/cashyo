@@ -8,6 +8,7 @@ import Register from "@/pages/auth/Register";
 import Contact from "@/pages/Contact";
 import AdminDashboard from "@/pages/dashboard/admin/AdminDashboard";
 import AgentDashboard from "@/pages/dashboard/agent/AgentDashboard";
+import Settings from "@/pages/dashboard/Settings";
 import UserDashboard from "@/pages/dashboard/user/UserDashboard";
 import FAQ from "@/pages/FAQ";
 import Features from "@/pages/Features";
@@ -61,6 +62,10 @@ export const router = createBrowserRouter([
       {
         path: "user",
         element: <UserDashboard />,
+      },
+      {
+        path: "user/settings",
+        element: <Settings />,
       },
       {
         path: "agent",
