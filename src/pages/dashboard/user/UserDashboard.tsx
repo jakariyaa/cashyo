@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UpdateProfileForm } from "@/components/common/update-profile-form";
+import UpdateProfileForm from "@/components/common/update-profile-form";
 import { DashboardNav } from "@/components/layout/Dashboard-Nav";
 import { Button } from "@/components/ui/button";
 import {

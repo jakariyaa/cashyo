@@ -11,4 +11,19 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ["react", "react-dom"],
+          lucide: ["lucide-react"],
+          "react-hook-form": ["react-hook-form"],
+          "driver.js": ["driver.js"],
+          sonner: ["sonner"],
+          "react-redux": ["react-redux", "@reduxjs/toolkit"],
+          "react-router": ["react-router"],
+        },
+      },
+    },
+  },
 });
