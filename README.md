@@ -1,73 +1,107 @@
-# React + TypeScript + Vite
+# Cashyo - Digital Wallet System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Cashyo is a modern, secure, and user-friendly digital wallet system. It provides a seamless way to manage your finances, send and receive money, and handle various financial transactions with ease.
 
-Currently, two official plugins are available:
+**Live URL:** [https://cashyo.vercel.app/](https://cashyo.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Overview
 
-## React Compiler
+This project is the frontend for the Cashyo digital wallet system. It is built with a modern technology stack to provide a fast, responsive, and intuitive user experience. The application is designed to be a single-page application (SPA) with a focus on performance and usability.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technology Stack
 
-## Expanding the ESLint configuration
+- **Framework:** React
+- **Build Tool:** Vite
+- **Styling:** Tailwind CSS with shadcn/ui components
+- **State Management:** Redux Toolkit
+- **Routing:** React Router
+- **Form Management:** React Hook Form with Zod for validation
+- **Linting:** ESLint
+- **Deployment:** Vercel
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Setup Instructions
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+To get the project up and running on your local machine, follow these steps:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/jakariyaa/cashyo.git
+    ```
+2.  **Navigate to the project directory:**
+    ```bash
+    cd cashyo
+    ```
+3.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+5.  **Open your browser** and navigate to `http://localhost:5173` (or the port specified in the console).
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Available Scripts
+
+- `npm run dev`: Starts the development server.
+- `npm run build`: Builds the application for production.
+- `npm run lint`: Lints the codebase for errors.
+- `npm run preview`: Serves the production build locally for preview.
+- `npm run deploy`: Builds the application and deploys it to Vercel.
+
+## Project Structure
+
+The project is structured as follows:
+
+```
+.
+├── public
+├── src
+│   ├── assets
+│   ├── components
+│   │   ├── common
+│   │   ├── layout
+│   │   └── ui
+│   ├── context
+│   ├── hooks
+│   ├── lib
+│   ├── pages
+│   │   ├── auth
+│   │   └── dashboard
+│   ├── providers
+│   ├── redux
+│   │   ├── features
+│   │   └── store.ts
+│   ├── routes
+│   ├── types
+│   └── utils
+├── .gitignore
+├── index.html
+├── package.json
+├── README.md
+└── vite.config.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **`src/components`**: Contains reusable UI components.
+- **`src/pages`**: Contains the main pages of the application.
+- **`src/redux`**: Contains the Redux store and slices.
+- **`src/routes`**: Contains the application's routing configuration.
+- **`src/lib`**: Contains utility functions.
+- **`src/hooks`**: Contains custom React hooks.
+- **`src/providers`**: Contains context providers.
+- **`src/types`**: Contains TypeScript type definitions.
+- **`src/utils`**: Contains miscellaneous utility functions.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Contributing
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes and commit them (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Open a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
