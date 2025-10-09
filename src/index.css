@@ -1,151 +1,144 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
 
-/* Digital Wallet Design System - Professional Fintech Theme
-All colors MUST be HSL for consistency and theming.
-*/
+@custom-variant dark (&:is(.dark *));
 
-@layer base {
-  :root {
-    /* Fintech Color Palette */
-    --background: 240 10% 97%;
-    --foreground: 220 15% 15%;
+:root {
+  --background: oklch(0.99 0.005 240);
+  --foreground: oklch(0.2 0.02 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.02 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.02 240);
+  --primary: oklch(0.55 0.2 240);
+  --primary-foreground: oklch(0.99 0.005 240);
+  --secondary: oklch(0.96 0.01 240);
+  --secondary-foreground: oklch(0.2 0.02 240);
+  --muted: oklch(0.96 0.01 240);
+  --muted-foreground: oklch(0.5 0.02 240);
+  --accent: oklch(0.94 0.02 240);
+  --accent-foreground: oklch(0.2 0.02 240);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0.005 240);
+  --border: oklch(0.92 0.01 240);
+  --input: oklch(0.92 0.01 240);
+  --ring: oklch(0.55 0.2 240);
+  --chart-1: oklch(0.55 0.2 240);
+  --chart-2: oklch(0.6 0.15 200);
+  --chart-3: oklch(0.65 0.1 280);
+  --chart-4: oklch(0.7 0.12 160);
+  --chart-5: oklch(0.75 0.08 320);
+  --radius: 0.5rem;
+  --sidebar: oklch(0.99 0.005 240);
+  --sidebar-foreground: oklch(0.2 0.02 240);
+  --sidebar-primary: oklch(0.55 0.2 240);
+  --sidebar-primary-foreground: oklch(0.99 0.005 240);
+  --sidebar-accent: oklch(0.96 0.01 240);
+  --sidebar-accent-foreground: oklch(0.2 0.02 240);
+  --sidebar-border: oklch(0.92 0.01 240);
+  --sidebar-ring: oklch(0.55 0.2 240);
+}
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 15%;
+.dark {
+  --background: oklch(0.1 0.02 240);
+  --foreground: oklch(0.95 0.005 240);
+  --card: oklch(0.12 0.02 240);
+  --card-foreground: oklch(0.95 0.005 240);
+  --popover: oklch(0.12 0.02 240);
+  --popover-foreground: oklch(0.95 0.005 240);
+  --primary: oklch(0.6 0.2 240);
+  --primary-foreground: oklch(0.1 0.02 240);
+  --secondary: oklch(0.15 0.02 240);
+  --secondary-foreground: oklch(0.95 0.005 240);
+  --muted: oklch(0.15 0.02 240);
+  --muted-foreground: oklch(0.6 0.02 240);
+  --accent: oklch(0.18 0.02 240);
+  --accent-foreground: oklch(0.95 0.005 240);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.95 0.005 240);
+  --border: oklch(0.2 0.02 240);
+  --input: oklch(0.2 0.02 240);
+  --ring: oklch(0.6 0.2 240);
+  --chart-1: oklch(0.6 0.2 240);
+  --chart-2: oklch(0.65 0.15 200);
+  --chart-3: oklch(0.7 0.1 280);
+  --chart-4: oklch(0.75 0.12 160);
+  --chart-5: oklch(0.8 0.08 320);
+  --sidebar: oklch(0.1 0.02 240);
+  --sidebar-foreground: oklch(0.95 0.005 240);
+  --sidebar-primary: oklch(0.6 0.2 240);
+  --sidebar-primary-foreground: oklch(0.1 0.02 240);
+  --sidebar-accent: oklch(0.15 0.02 240);
+  --sidebar-accent-foreground: oklch(0.95 0.005 240);
+  --sidebar-border: oklch(0.2 0.02 240);
+  --sidebar-ring: oklch(0.6 0.2 240);
+}
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 15%;
-
-    /* Professional Blue Primary */
-    --primary: 213 94% 54%;
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 213 94% 46%;
-    --primary-light: 213 94% 90%;
-
-    /* Success Green for Financial Operations */
-    --success: 142 71% 45%;
-    --success-foreground: 0 0% 100%;
-    --success-light: 142 71% 90%;
-
-    /* Warning Orange for Alerts */
-    --warning: 38 92% 58%;
-    --warning-foreground: 0 0% 100%;
-    --warning-light: 38 92% 90%;
-
-    --secondary: 220 14% 96%;
-
-    --secondary-foreground: 220 15% 15%;
-
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 10% 46%;
-
-    --accent: 213 94% 96%;
-    --accent-foreground: 213 94% 20%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 213 94% 54%;
-
-    /* Financial Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(213 94% 54%), hsl(213 94% 46%));
-    --gradient-success: linear-gradient(135deg, hsl(142 71% 45%), hsl(142 71% 40%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(220 14% 98%));
-    --gradient-hero: linear-gradient(135deg, hsl(213 94% 54%) 0%, hsl(213 94% 46%) 50%, hsl(142 71% 45%) 100%);
-
-    /* Shadows for Financial UI */
-    --shadow-card: 0 4px 6px -1px hsl(220 15% 15% / 0.1), 0 2px 4px -1px hsl(220 15% 15% / 0.06);
-    --shadow-elevated: 0 20px 25px -5px hsl(220 15% 15% / 0.1), 0 10px 10px -5px hsl(220 15% 15% / 0.04);
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 220 15% 8%;
-    --foreground: 220 14% 96%;
-
-    --card: 220 15% 10%;
-    --card-foreground: 220 14% 96%;
-
-    --popover: 220 15% 10%;
-    --popover-foreground: 220 14% 96%;
-
-    --primary: 213 94% 54%;
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 213 94% 46%;
-    --primary-light: 213 94% 20%;
-
-    --success: 142 71% 45%;
-    --success-foreground: 0 0% 100%;
-    --success-light: 142 71% 20%;
-
-    --warning: 38 92% 58%;
-    --warning-foreground: 0 0% 100%;
-    --warning-light: 38 92% 20%;
-
-    --secondary: 220 15% 15%;
-
-    --secondary-foreground: 220 14% 96%;
-
-    --muted: 220 15% 15%;
-    --muted-foreground: 220 10% 65%;
-
-    --accent: 213 94% 15%;
-    --accent-foreground: 213 94% 80%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 15% 15%;
-    --input: 220 15% 15%;
-    --ring: 213 94% 54%;
-
-    /* Dark Mode Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(213 94% 54%), hsl(213 94% 46%));
-    --gradient-success: linear-gradient(135deg, hsl(142 71% 45%), hsl(142 71% 40%));
-    --gradient-card: linear-gradient(145deg, hsl(220 15% 10%), hsl(220 15% 12%));
-    --gradient-hero: linear-gradient(135deg, hsl(213 94% 54%) 0%, hsl(213 94% 46%) 50%, hsl(142 71% 45%) 100%);
-
-    /* Dark Mode Shadows */
-    --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.3), 0 2px 4px -1px hsl(0 0% 0% / 0.2);
-    --shadow-elevated: 0 20px 25px -5px hsl(0 0% 0% / 0.3), 0 10px 10px -5px hsl(0 0% 0% / 0.2);
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
-
   body {
     @apply bg-background text-foreground;
   }
+}
+
+* {
+  transition: colors 0.2s ease-in-out;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
 }

@@ -1,380 +1,324 @@
+import { Footer } from "@/components/layout/Footer";
+import { Navbar } from "@/components/layout/Navbar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useAuth } from "@/hooks/useAuth";
-import { useRegisterMutation } from "@/store/api/walletApi";
-import { setUser } from "@/store/slices/authSlice";
-import { motion } from "framer-motion";
-import { ArrowRight, Eye, EyeOff, User, Users, Wallet } from "lucide-react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
+import type { AuthError } from "@/types/auth";
+import { ArrowRight, Check, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import type React from "react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
-const Register = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: "user" as "user" | "agent",
-  });
+const passwordRequirements = [
+  { label: "At least 6 characters", regex: /.{6,}/ },
+  { label: "One uppercase letter", regex: /[A-Z]/ },
+  { label: "One lowercase letter", regex: /[a-z]/ },
+  { label: "One number", regex: /[0-9]/ },
+];
+
+export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [register, { isLoading }] = useRegisterMutation();
-  const dispatch = useDispatch();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [register, { isLoading, isSuccess, isError, error }] =
+    useRegisterMutation();
   const navigate = useNavigate();
-  const { user } = useAuth();
 
-  // Redirect if already logged in
-  if (user) {
-    const dashboardRoute =
-      user.role === "user"
-        ? "/dashboard/user"
-        : user.role === "agent"
-        ? "/dashboard/agent"
-        : "/dashboard/admin";
-    navigate(dashboardRoute, { replace: true });
-    return null;
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Account created!", {
+        description: "Welcome to Cashyo. Please log in.",
+      });
+      navigate("/login");
+    }
+    if (isError) {
+      const errorData = error as AuthError;
+      toast.error("Registration failed.", {
+        description: errorData.data.message || "An unexpected error occurred.",
+      });
+    }
+  }, [isSuccess, isError, error, navigate]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match");
+    if (password !== confirmPassword) {
+      toast.error("Error", { description: "Passwords do not match." });
       return;
     }
-
-    if (formData.password.length < 6) {
-      toast.error("Password must be at least 6 characters long");
-      return;
-    }
-
-    try {
-      const response = await register({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        role: formData.role,
-      }).unwrap();
-
-      dispatch(setUser(response.data.user));
-      toast.success("Account created successfully! Welcome to Cashyo!");
-
-      // Redirect based on role
-      const dashboardRoute =
-        response.data.user.role === "user"
-          ? "/dashboard/user"
-          : response.data.user.role === "agent"
-          ? "/dashboard/agent"
-          : "/dashboard/admin";
-      navigate(dashboardRoute);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(
-        error?.data?.message || "Registration failed. Please try again."
-      );
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleRoleChange = (value: string) => {
-    setFormData({
-      ...formData,
-      role: value as "user" | "agent",
-    });
+    await register({ name, email, password });
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-        <div className="w-full max-w-md space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            <Link to="/" className="inline-flex items-center space-x-2 mb-8">
-              <div className="rounded-lg bg-gradient-primary p-2">
-                <Wallet className="h-6 w-6 text-white" />
-              </div>
-              <span className="text-xl font-bold text-foreground">Cashyo</span>
-            </Link>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
 
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
-              Join Cashyo
+      <main className="flex-1 flex items-center justify-center px-6 py-24 sm:py-32 bg-gradient-to-br from-background via-background to-primary/5">
+        <div className="w-full max-w-md animate-fade-in-up">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold tracking-tight text-foreground mb-2">
+              Create your account
             </h1>
-            <p className="mt-2 text-muted-foreground">
-              Create your account and start managing your finances
+            <p className="text-muted-foreground">
+              Join thousands of users managing their finances with Cashyo
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-          >
-            <Card className="shadow-elevated">
-              <CardHeader>
-                <CardTitle className="text-center">Create Account</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">
-                      Full Name
-                    </label>
+          <Card className="shadow-xl hover:shadow-2xl transition-shadow duration-300">
+            <CardHeader>
+              <CardTitle>Sign up</CardTitle>
+              <CardDescription>
+                Create your account to get started
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="fullName">Full name</Label>
+                  <div className="relative group">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors duration-300" />
                     <Input
+                      id="name"
                       name="name"
                       type="text"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Enter your full name"
+                      placeholder="John Doe"
                       required
-                      autoComplete="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="pl-10 transition-all duration-300 focus:scale-[1.02]"
                     />
                   </div>
+                </div>
 
-                  <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">
-                      Email Address
-                    </label>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <div className="relative group">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors duration-300" />
                     <Input
+                      id="email"
                       name="email"
                       type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="Enter your email"
+                      placeholder="you@example.com"
                       required
-                      autoComplete="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="pl-10 transition-all duration-300 focus:scale-[1.02]"
                     />
                   </div>
+                </div>
 
-                  <div>
-                    <label className="text-sm font-medium text-foreground mb-3 block">
-                      Account Type
-                    </label>
-                    <RadioGroup
-                      value={formData.role}
-                      onValueChange={handleRoleChange}
-                    >
-                      <div className="space-y-3">
-                        <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
-                          <RadioGroupItem value="user" id="user" />
-                          <Label
-                            htmlFor="user"
-                            className="flex items-center space-x-3 cursor-pointer"
-                          >
-                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-primary">
-                              <User className="h-4 w-4 text-white" />
-                            </div>
-                            <div>
-                              <div className="font-medium">Personal User</div>
-                              <div className="text-sm text-muted-foreground">
-                                Send money, pay bills, manage finances
-                              </div>
-                            </div>
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
-                          <RadioGroupItem value="agent" id="agent" />
-                          <Label
-                            htmlFor="agent"
-                            className="flex items-center space-x-3 cursor-pointer"
-                          >
-                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-success">
-                              <Users className="h-4 w-4 text-white" />
-                            </div>
-                            <div>
-                              <div className="font-medium">Business Agent</div>
-                              <div className="text-sm text-muted-foreground">
-                                Provide cash-in/out services to users
-                              </div>
-                            </div>
-                          </Label>
-                        </div>
-                      </div>
-                    </RadioGroup>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">
-                      Password
-                    </label>
-                    <div className="relative">
-                      <Input
-                        name="password"
-                        type={showPassword ? "text" : "password"}
-                        value={formData.password}
-                        onChange={handleChange}
-                        placeholder="Create a strong password"
-                        required
-                        autoComplete="new-password"
-                      />
-                      <button
-                        type="button"
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <EyeOff className="h-4 w-4 text-muted-foreground" />
-                        ) : (
-                          <Eye className="h-4 w-4 text-muted-foreground" />
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">
-                      Confirm Password
-                    </label>
-                    <div className="relative">
-                      <Input
-                        name="confirmPassword"
-                        type={showConfirmPassword ? "text" : "password"}
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        placeholder="Confirm your password"
-                        required
-                        autoComplete="new-password"
-                      />
-                      <button
-                        type="button"
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                        onClick={() =>
-                          setShowConfirmPassword(!showConfirmPassword)
-                        }
-                      >
-                        {showConfirmPassword ? (
-                          <EyeOff className="h-4 w-4 text-muted-foreground" />
-                        ) : (
-                          <Eye className="h-4 w-4 text-muted-foreground" />
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <input
-                      id="terms"
-                      name="terms"
-                      type="checkbox"
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <div className="relative group">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors duration-300" />
+                    <Input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="••••••••"
                       required
-                      className="h-4 w-4 text-primary focus:ring-primary border-border rounded"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="pl-10 pr-10 transition-all duration-300 focus:scale-[1.02]"
                     />
-                    <label
-                      htmlFor="terms"
-                      className="ml-2 block text-sm text-muted-foreground"
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-all duration-300 hover:scale-110"
                     >
-                      I agree to the{" "}
-                      <Link
-                        to="/terms"
-                        className="text-primary hover:text-primary-hover"
-                      >
-                        Terms of Service
-                      </Link>{" "}
-                      and{" "}
-                      <Link
-                        to="/privacy"
-                        className="text-primary hover:text-primary-hover"
-                      >
-                        Privacy Policy
-                      </Link>
-                    </label>
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
                   </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full bg-gradient-primary text-white hover:opacity-90"
-                    disabled={isLoading}
+                  {password && (
+                    <div className="space-y-2 mt-3 p-3 bg-muted/50 rounded-lg animate-fade-in">
+                      <p className="text-xs font-medium text-muted-foreground mb-2">
+                        Password requirements:
+                      </p>
+                      {passwordRequirements.map((req, index) => {
+                        const isMet = req.regex.test(password);
+                        return (
+                          <div
+                            key={index}
+                            className={`flex items-center gap-2 text-xs transition-all duration-300 ${
+                              isMet ? "text-green-600" : "text-muted-foreground"
+                            }`}
+                          >
+                            <div
+                              className={`w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${
+                                isMet
+                                  ? "bg-green-600 scale-100"
+                                  : "bg-muted scale-90"
+                              }`}
+                            >
+                              {isMet && (
+                                <Check className="h-3 w-3 text-white" />
+                              )}
+                            </div>
+                            {req.label}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">Confirm password</Label>
+                  <div className="relative group">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors duration-300" />
+                    <Input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="••••••••"
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="pl-10 pr-10 transition-all duration-300 focus:scale-[1.02]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-all duration-300 hover:scale-110"
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-2">
+                  <Checkbox id="terms" required className="mt-1" />
+                  <label
+                    htmlFor="terms"
+                    className="text-sm text-muted-foreground cursor-pointer hover:text-foreground transition-colors duration-300"
                   >
-                    {isLoading ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Creating Account...
-                      </>
-                    ) : (
-                      <>
-                        Create Account
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </>
-                    )}
-                  </Button>
-                </form>
-
-                <div className="mt-6 text-center">
-                  <p className="text-sm text-muted-foreground">
-                    Already have an account?{" "}
+                    I agree to the{" "}
+                    <Link to="/terms" className="text-primary hover:underline">
+                      Terms of Service
+                    </Link>{" "}
+                    and{" "}
                     <Link
-                      to="/login"
-                      className="font-medium text-primary hover:text-primary-hover"
+                      to="/privacy"
+                      className="text-primary hover:underline"
                     >
-                      Sign in here
+                      Privacy Policy
                     </Link>
-                  </p>
+                  </label>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-      </div>
 
-      {/* Right Side - Hero Image */}
-      <div className="hidden lg:block lg:w-1/2 relative">
-        <div className="absolute inset-0 bg-gradient-hero">
-          <div className="flex items-center justify-center h-full p-12">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.3 }}
-              className="text-center text-white"
-            >
-              <div className="mb-8">
-                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-white/20 backdrop-blur-sm mb-6">
-                  <Wallet className="h-12 w-12 text-white" />
+                <Button
+                  type="submit"
+                  className="w-full transition-all duration-300 hover:scale-105 hover:shadow-lg group"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <span className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Creating account...
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      Create account
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    </span>
+                  )}
+                </Button>
+              </form>
+
+              <div className="relative my-6">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t border-border" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
                 </div>
               </div>
-              <h2 className="text-4xl font-bold mb-4">
-                Start Your Financial Journey
-              </h2>
-              <p className="text-xl text-white/90 max-w-md mb-8">
-                Join millions of users who trust Cashyo for secure and
-                convenient financial services
+
+              <div className="grid grid-cols-2 gap-4">
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="transition-all duration-300 hover:scale-105 hover:border-primary bg-transparent"
+                >
+                  <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+                    <path
+                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      fill="#4285F4"
+                    />
+                    <path
+                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                      fill="#34A853"
+                    />
+                    <path
+                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                      fill="#FBBC05"
+                    />
+                    <path
+                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      fill="#EA4335"
+                    />
+                  </svg>
+                  Google
+                </Button>
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="transition-all duration-300 hover:scale-105 hover:border-primary bg-transparent"
+                >
+                  <svg
+                    className="mr-2 h-4 w-4"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+                  </svg>
+                  GitHub
+                </Button>
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-center">
+              <p className="text-sm text-muted-foreground">
+                Already have an account?{" "}
+                <Link
+                  to="/login"
+                  className="text-primary hover:underline font-medium transition-all duration-300 hover:text-primary/80"
+                >
+                  Sign in
+                </Link>
               </p>
-              <div className="grid grid-cols-2 gap-6 text-center">
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <User className="h-8 w-8 mx-auto mb-2" />
-                  <div className="font-semibold">Personal Users</div>
-                  <div className="text-sm text-white/80">
-                    Send money, pay bills
-                  </div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <Users className="h-8 w-8 mx-auto mb-2" />
-                  <div className="font-semibold">Business Agents</div>
-                  <div className="text-sm text-white/80">
-                    Cash-in/out services
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+            </CardFooter>
+          </Card>
         </div>
-      </div>
+      </main>
+
+      <Footer />
     </div>
   );
-};
-
-export default Register;
+}

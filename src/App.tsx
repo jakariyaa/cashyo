@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import CommonLayout from "./components/layout/CommonLayout";
 
 function App() {

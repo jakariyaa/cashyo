@@ -1,155 +1,165 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Facebook,
-  Instagram,
-  Mail,
-  MapPin,
-  Phone,
-  Twitter,
-  Wallet,
-} from "lucide-react";
-import { Link } from "react-router-dom";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { Github, Linkedin, Mail, Twitter, Wallet } from "lucide-react";
+import { Link } from "react-router";
 
-export const Footer = () => {
+const navigation = {
+  product: [
+    { name: "Features", href: "/features" },
+    { name: "Pricing", href: "/pricing" },
+    { name: "FAQ", href: "/faq" },
+  ],
+  company: [
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
+    { name: "Privacy Policy", href: "#" },
+    { name: "Terms of Service", href: "#" },
+  ],
+  social: [
+    {
+      name: "Twitter",
+      href: "#",
+      icon: Twitter,
+    },
+    {
+      name: "GitHub",
+      href: "#",
+      icon: Github,
+    },
+    {
+      name: "LinkedIn",
+      href: "#",
+      icon: Linkedin,
+    },
+    {
+      name: "Email",
+      href: "mailto:hello@cashyo.com",
+      icon: Mail,
+    },
+  ],
+};
+
+export function Footer() {
+  const { ref, isIntersecting } = useIntersectionObserver({ threshold: 0.2 });
+
   return (
-    <footer className="bg-card border-t">
-      <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {/* Company Info */}
-          <div className="space-y-4">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="rounded-lg bg-gradient-primary p-2">
-                <Wallet className="h-6 w-6 text-white" />
+    <footer ref={ref} className="bg-muted/30 border-t">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="flex flex-col space-y-8 md:flex-row md:items-start md:justify-between md:space-y-0 md:space-x-12">
+          <div
+            className={`flex flex-col space-y-4 transition-all duration-700 ease-out ${
+              isIntersecting
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            <Link to="/" className="-m-1.5 p-1.5 mb-4 flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-600 text-white font-bold text-sm">
+                <Wallet className="h-5 w-5" />
               </div>
-              <span className="text-xl font-bold text-foreground">Cashyo</span>
+              <span className="text-xl font-semibold text-foreground">
+                Cashyo
+              </span>
             </Link>
-            <p className="text-sm text-muted-foreground">
-              Your trusted digital wallet for secure, fast, and convenient
-              financial transactions. Making money management simple and
-              accessible for everyone.
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-xs">
+              Secure, user-friendly digital wallet for modern financial
+              transactions.
             </p>
-            <div className="flex space-x-4">
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                <Facebook className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                <Twitter className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                <Instagram className="h-4 w-4" />
-              </Button>
+          </div>
+
+          <div
+            className={`grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-2 transition-all duration-700 ease-out delay-200 ${
+              isIntersecting
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            <div>
+              <h3 className="text-xs sm:text-sm font-semibold leading-6 text-foreground">
+                Product
+              </h3>
+              <ul role="list" className="mt-4 sm:mt-6 space-y-3 sm:space-y-4">
+                {navigation.product.map((item, index) => (
+                  <li key={item.name}>
+                    <Link
+                      to={item.href}
+                      className={`text-xs sm:text-sm leading-6 text-muted-foreground hover:text-foreground transition-all duration-300 hover:translate-x-1 relative group ${
+                        isIntersecting ? "opacity-100" : "opacity-0"
+                      }`}
+                      style={{ transitionDelay: `${300 + index * 100}ms` }}
+                    >
+                      {item.name}
+                      <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-xs sm:text-sm font-semibold leading-6 text-foreground">
+                Company
+              </h3>
+              <ul role="list" className="mt-4 sm:mt-6 space-y-3 sm:space-y-4">
+                {navigation.company.map((item, index) => (
+                  <li key={item.name}>
+                    <Link
+                      to={item.href}
+                      className={`text-xs sm:text-sm leading-6 text-muted-foreground hover:text-foreground transition-all duration-300 hover:translate-x-1 relative group ${
+                        isIntersecting ? "opacity-100" : "opacity-0"
+                      }`}
+                      style={{ transitionDelay: `${600 + index * 100}ms` }}
+                    >
+                      {item.name}
+                      <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">
-              Quick Links
-            </h3>
-            <nav className="space-y-2">
-              <Link
-                to="/about"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                About Us
-              </Link>
-              <Link
-                to="/features"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Features
-              </Link>
-              <Link
-                to="/pricing"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Pricing
-              </Link>
-              <Link
-                to="/faq"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                FAQ
-              </Link>
-              <Link
-                to="/contact"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Contact
-              </Link>
-            </nav>
-          </div>
-
-          {/* Support */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">Support</h3>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <Phone className="h-4 w-4" />
-                <span>+1 (555) 123-4567</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <Mail className="h-4 w-4" />
-                <span>support@cashyo.com</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <MapPin className="h-4 w-4" />
-                <span>123 Finance Street, NY 10001</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Newsletter */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">
-              Stay Updated
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              Subscribe to our newsletter for the latest updates and financial
-              tips.
-            </p>
-            <div className="space-y-2">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                className="text-sm"
-              />
-              <Button className="w-full bg-gradient-primary text-white hover:opacity-90">
-                Subscribe
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-12 border-t pt-8">
-          <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
-            <p className="text-sm text-muted-foreground">
-              © 2024 Cashyo. All rights reserved.
-            </p>
-            <div className="flex space-x-6">
-              <Link
-                to="/privacy"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                to="/terms"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Terms of Service
-              </Link>
-              <Link
-                to="/security"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Security
-              </Link>
+          <div
+            className={`transition-all duration-700 ease-out delay-400 ${
+              isIntersecting
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            <div className="flex space-x-5 sm:space-x-6">
+              {navigation.social.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`text-muted-foreground hover:text-foreground transition-all duration-300 hover:scale-125 hover:-translate-y-1 ${
+                      isIntersecting ? "opacity-100" : "opacity-0"
+                    }`}
+                    style={{ transitionDelay: `${500 + index * 100}ms` }}
+                  >
+                    <span className="sr-only">{item.name}</span>
+                    <Icon className="h-5 w-5" />
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>
       </div>
+
+      <div className="border-t border-border">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+          <p
+            className={`text-center text-xs leading-5 text-muted-foreground transition-all duration-700 ease-out delay-600 ${
+              isIntersecting
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          >
+            &copy; 2025 Cashyo. All rights reserved.
+          </p>
+        </div>
+      </div>
     </footer>
   );
-};
+}

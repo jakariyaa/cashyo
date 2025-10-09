@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Footer } from "./Footer";
 import { Navbar } from "./Navbar";
 
@@ -10,7 +10,7 @@ export default function CommonLayout({ children }: IProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <div className="grow-1">{children}</div>
       <Footer />
     </div>
   );
