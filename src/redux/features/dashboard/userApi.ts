@@ -19,14 +19,24 @@ export const userApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Wallet"],
     }),
-    changePassword: builder.mutation<any, { currentPassword: string, newPassword: string }> ({
+    changePassword: builder.mutation<any, { currentPassword: string, newPassword: string }>({
       query: (data) => ({
         url: "/auth/change-password",
         method: "PATCH",
         body: data,
       }),
     }),
+    getAgents: builder.query<any, { page?: number; limit?: number } | void>({
+      query: (params) => {
+        if (params) {
+          const { page, limit } = params;
+          return `/users/agents?page=${page}&limit=${limit}`;
+        }
+        return "/users/agents";
+      },
+      providesTags: ["Users"],
+    }),
   }),
 });
 
-export const { useGetUserWalletQuery, useGetUserTransactionsQuery, useUpdateUserProfileMutation, useChangePasswordMutation } = userApi;
+export const { useGetUserWalletQuery, useGetUserTransactionsQuery, useUpdateUserProfileMutation, useChangePasswordMutation, useGetAgentsQuery } = userApi;

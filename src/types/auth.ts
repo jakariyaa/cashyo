@@ -1,11 +1,14 @@
 export interface User {
-  _id: string;
+  id: string;
+  _id?: string;
   name: string;
   email: string;
   role: string;
-  isActive: boolean;
-  isApproved: boolean;
-  createdAt: string;
+  image?: string | null;
+  isActive?: boolean;
+  isApproved?: boolean;
+  emailVerified: boolean;
+  createdAt: string; // BetterAuth returns Date object usually, need to check if auth-client serializes it
   updatedAt: string;
 }
 

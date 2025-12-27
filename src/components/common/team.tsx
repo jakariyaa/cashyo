@@ -3,40 +3,10 @@ import { Linkedin, Twitter } from "lucide-react"
 
 const team = [
   {
-    name: "Sarah Chen",
-    role: "CEO & Co-Founder",
-    bio: "Former VP of Product at PayPal with 15 years in fintech. Led digital transformation initiatives serving 400M+ users.",
-    image: "/placeholder.svg?height=400&width=400&text=Sarah+Chen",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-    },
-  },
-  {
-    name: "Marcus Rodriguez",
-    role: "CTO & Co-Founder",
-    bio: "Ex-Google engineer specializing in distributed systems and cryptography. Built payment infrastructure at scale.",
-    image: "/placeholder.svg?height=400&width=400&text=Marcus+Rodriguez",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-    },
-  },
-  {
-    name: "Emily Watson",
-    role: "Head of Security",
-    bio: "Cybersecurity expert with 12 years protecting financial institutions. Former security architect at JPMorgan Chase.",
-    image: "/placeholder.svg?height=400&width=400&text=Emily+Watson",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-    },
-  },
-  {
-    name: "David Kim",
-    role: "Head of Design",
-    bio: "Award-winning UX designer focused on financial products. Previously led design teams at Stripe and Square.",
-    image: "/placeholder.svg?height=400&width=400&text=David+Kim",
+    name: "Jakariya Abbas",
+    role: "Fullstack Developer",
+    bio: "Passionate Fullstack Developer with expertise in building scalable web applications and premium user experiences.",
+    image: "/placeholder.svg?height=400&width=400&text=Jakariya+Abbas",
     social: {
       linkedin: "#",
       twitter: "#",

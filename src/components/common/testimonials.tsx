@@ -1,3 +1,7 @@
+import { motion } from "framer-motion";
+import { Star, Quote } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 const testimonials = [
   {
     content:
@@ -5,6 +9,7 @@ const testimonials = [
     author: "Diana Johnson",
     role: "Small Business Owner",
     rating: 5,
+    image: "https://i.pravatar.cc/150?u=diana",
   },
   {
     content:
@@ -12,6 +17,7 @@ const testimonials = [
     author: "Mike Rodriguez",
     role: "Freelancer",
     rating: 5,
+    image: "https://i.pravatar.cc/150?u=mike",
   },
   {
     content:
@@ -19,47 +25,63 @@ const testimonials = [
     author: "Abdul Kader",
     role: "Student",
     rating: 5,
+    image: "https://i.pravatar.cc/150?u=abdul",
   },
 ];
 
 export function Testimonials() {
   return (
-    <section className="py-20 sm:py-24 bg-muted/30">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+    <section className="py-24 bg-background relative overflow-hidden">
+      {/* Background blobs */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
+        <div className="mx-auto max-w-2xl text-center mb-16">
+          <h2 className="text-base font-semibold leading-7 text-primary uppercase tracking-wide">Testimonials</h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Loved by Millions
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            See what our users say about their Cashyo experience
+          </p>
+          <p className="mt-6 text-lg leading-8 text-muted-foreground">
+            See what our community has to say about their Cashyo experience.
           </p>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-card rounded-lg p-6 shadow-sm">
-              <div className="flex mb-4">
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              whileHover={{ y: -5 }}
+              className="flex flex-col justify-between bg-card p-8 rounded-3xl border border-border/50 shadow-sm hover:shadow-xl transition-all duration-300 relative group"
+            >
+              <Quote className="absolute top-6 right-8 w-10 h-10 text-primary/10 group-hover:text-primary/20 transition-colors" />
+
+              <div className="flex gap-1 mb-6">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <svg
-                    key={i}
-                    className="h-5 w-5 text-yellow-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
+                  <Star key={i} className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                 ))}
               </div>
-              <blockquote className="text-foreground mb-4">
+
+              <blockquote className="text-foreground text-lg leading-relaxed mb-6 flex-grow">
                 "{testimonial.content}"
               </blockquote>
-              <div>
-                <div className="font-semibold text-foreground">
-                  {testimonial.author}
+
+              <div className="flex items-center gap-4 mt-auto border-t border-border/50 pt-6">
+                <Avatar className="h-12 w-12 border-2 border-primary/20">
+                  <AvatarImage src={testimonial.image} alt={testimonial.author} />
+                  <AvatarFallback>{testimonial.author[0]}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <div className="font-semibold text-foreground text-base">
+                    {testimonial.author}
+                  </div>
+                  <div className="text-sm text-muted-foreground">{testimonial.role}</div>
                 </div>
-                <div className="text-sm text-muted-foreground">{testimonial.role}</div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

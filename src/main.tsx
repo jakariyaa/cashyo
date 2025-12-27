@@ -5,24 +5,21 @@ import { RouterProvider } from "react-router";
 import { Toaster } from "./components/ui/sonner.tsx";
 import "./index.css";
 import { Theme } from "./providers/theme.provider.tsx";
-import { setCredentials } from "./redux/features/auth/userSlice.ts";
 import { store } from "./redux/store.ts";
 import { router } from "./routes/index.tsx";
+import { AuthProvider } from "./providers/auth-provider";
 
-const user = localStorage.getItem("user");
-const token = localStorage.getItem("token");
 
-if (user && token) {
-  store.dispatch(setCredentials({ user: JSON.parse(user), token }));
-}
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ReduxProvider store={store}>
-      <Theme defaultTheme="system" storageKey="vite-ui-theme">
-        <RouterProvider router={router} />
-        <Toaster richColors />
-      </Theme>
+      <AuthProvider>
+        <Theme defaultTheme="system" storageKey="vite-ui-theme">
+          <RouterProvider router={router} />
+          <Toaster richColors />
+        </Theme>
+      </AuthProvider>
     </ReduxProvider>
   </React.StrictMode>
 );

@@ -4,12 +4,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface UserState {
   user: User | null;
-  token: string | null;
 }
 
 const initialState: UserState = {
   user: null,
-  token: null,
 };
 
 const userSlice = createSlice({
@@ -18,18 +16,14 @@ const userSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      { payload: { user, token } }: PayloadAction<{ user: User; token: string }>
+      { payload: { user } }: PayloadAction<{ user: User }>
     ) => {
       state.user = user;
-      state.token = token;
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("token", token);
     },
     clearCredentials: (state) => {
       state.user = null;
-      state.token = null;
       localStorage.removeItem("user");
-      localStorage.removeItem("token");
     },
   },
 });

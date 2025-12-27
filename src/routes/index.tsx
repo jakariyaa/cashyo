@@ -8,13 +8,18 @@ import Register from "@/pages/auth/Register";
 import Contact from "@/pages/Contact";
 import AdminDashboard from "@/pages/dashboard/admin/AdminDashboard";
 import AgentDashboard from "@/pages/dashboard/agent/AgentDashboard";
-import Settings from "@/pages/dashboard/Settings";
+import Profile from "@/pages/dashboard/Profile";
 import UserDashboard from "@/pages/dashboard/user/UserDashboard";
 import FAQ from "@/pages/FAQ";
 import Features from "@/pages/Features";
 import Homepage from "@/pages/Homepage";
 import NotFound from "@/pages/NotFound";
 import Pricing from "@/pages/Pricing";
+import Privacy from "@/pages/Privacy";
+import AllAgents from "@/pages/Agents/AllAgents";
+import AgentDetails from "@/pages/Agents/AgentDetails";
+import Terms from "@/pages/Terms";
+import CookiePolicy from "@/pages/CookiePolicy";
 
 export const router = createBrowserRouter([
   {
@@ -38,12 +43,32 @@ export const router = createBrowserRouter([
         path: "pricing",
       },
       {
+        Component: AllAgents,
+        path: "agents",
+      },
+      {
+        Component: AgentDetails,
+        path: "agents/:id",
+      },
+      {
         Component: Contact,
         path: "contact",
       },
       {
         Component: FAQ,
         path: "faq",
+      },
+      {
+        Component: Privacy,
+        path: "privacy",
+      },
+      {
+        Component: Terms,
+        path: "terms",
+      },
+      {
+        Component: CookiePolicy,
+        path: "cookies",
       },
     ],
   },
@@ -64,8 +89,12 @@ export const router = createBrowserRouter([
         element: <UserDashboard />,
       },
       {
-        path: "user/settings",
-        element: <Settings />,
+        path: "user/settings", // Redirect or alias to profile
+        element: <Profile />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
       {
         path: "agent",
